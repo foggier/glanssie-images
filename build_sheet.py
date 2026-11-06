@@ -26,7 +26,7 @@ BRAND   = "glanssieraad"
 KDV     = 20      # TODO: kullanıcı teyidi
 DESI    = 0.5     # TODO: kullanıcı teyidi
 LEAD    = 2       # sevkiyat süresi (gün)
-MENGEI  = ""      # TODO: kullanıcı teyidi (TR / CN ...)
+MENGEI  = "TR"    # kullanıcı talimatı: hepsi TR
 CARE    = "Ürünün kullanım ömrünü korumak için ürüne özel bakım talimatlarını takip ediniz."
 
 SHEET_OF_CAT = {"Kolye": "Çelik Kolye(2853)", "Bileklik": "Çelik Bileklik(2845)",
@@ -317,21 +317,19 @@ def attr_values(m):
     a["Ürün Adı"] = m["title"]
     a["Ürün Açıklaması"] = m["desc"]
     a["Ürün Stok Adedi"] = int(m["stok"])
-    a["Materyal"] = "Altın Kaplama" if n["metal"] == "Altın Kaplama" else "Çelik"
+    a["Materyal"] = "Çelik"          # kullanıcı talimatı: Materyal her zaman Çelik
     a["Taş Cinsi"] = n["tas_cinsi"]
     a["Cinsiyet"] = "Kadın / Kız"
     a["Yaş Grubu"] = "Yetişkin"
     a["Garanti Süresi"] = "Garantisiz"
+    a["Beden"] = "Standart"          # kullanıcı talimatı (Yüzük kategorisinde geçersizse boş kalır)
     a["Bakım Talimatları (Genel)"] = CARE
     if MENGEI: a["Menşei"] = MENGEI
     a["Web Color"] = n["web_color"]
     a["Renk"] = n["web_color"]
-    # Küpe kategorisinde 'Model' alanı var: yalnızca dosya adından net çıkanlar yazılır
+    # Küpe kategorisinde 'Model' alanı var: kullanıcı talimatı -> Standart
     if m["kategori"] == "Küpe":
-        low = ascii_low(m["isim_kaynagi"])
-        km = ("Halka" if "halka" in low else "Klipsli" if "klipsli" in low
-              else "Sallantılı" if "sallantili" in low else None)
-        if km: a["Model"] = km
+        a["Model"] = "Standart"
     return a
 
 # yazma
